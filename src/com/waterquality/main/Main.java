@@ -13,12 +13,12 @@ public class Main {
         User validUser = new User("Amrith", "123456");
         UserOperations userService = new UserService();
 
-        System.out.println("\nValid User Validation:");
+        System.out.println("\nRegistration:");
         try {
-            userService.validateUser(validUser);
-            System.out.println("User '" + validUser.getUsername() + "' is valid.");
+        boolean registered = userService.register(validUser);
+        System.out.println("Registration successful: " + registered);
         } catch (InvalidUserInputException exception) {
-            System.out.println("Validation error: " + exception.getMessage());
+        System.out.println("Registration error: " + exception.getMessage());
         }
 
         System.out.println("\nAuthentication:");

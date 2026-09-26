@@ -3,13 +3,60 @@
 document.addEventListener("DOMContentLoaded", function () {
     const registerForm = document.getElementById("register-form");
     const loginForm = document.getElementById("login-form");
+    const query = new URLSearchParams(window.location.search);
 
     if (registerForm) {
         registerForm.addEventListener("submit", handleRegistration);
+
+        const error = query.get("error");
+        const messages = {
+            "password-mismatch": "Passwords do not match.",
+            "duplicate": "That username is already registered.",
+            "invalid": "Enter a username of at least 3 characters and a password of at least 6 characters."
+        };
+
+        if (messages[error]) {
+            showMessage(
+                document.getElementById("register-message"),
+                messages[error],
+                "error"
+            );
+        }
     }
 
     if (loginForm) {
         loginForm.addEventListener("submit", handleLogin);
+
+        if (query.get("registered") === "1") {
+            showMessage(
+                document.getElementById("login-message"),
+                "Registration successful. You can now log in.",
+                "success"
+            );
+        }
+        if (query.get("error") === "invalid-credentials") {
+            showMessage(
+            document.getElementById("login-message"),
+            "Incorrect username or password.",
+            "error"
+            );
+        }
+        
+        if (query.get("error") === "login-required") {
+        showMessage(
+            document.getElementById("login-message"),
+            "Please log in to view the dashboard.",
+            "error"
+        );
+        }
+
+        if (query.get("logout") === "1") {
+            showMessage(
+                document.getElementById("login-message"),
+                "You have been logged out.",
+                "success"
+            );
+        }
     }
 });
 
@@ -21,15 +68,15 @@ function handleRegistration(event) {
     const confirmPassword = document.getElementById("confirm-password").value;
     const message = document.getElementById("register-message");
 
-    const validationMessage = validateRegistration(username, password, confirmPassword);
+    const validationMessage =
+        validateRegistration(username, password, confirmPassword);
+
     if (validationMessage) {
         showMessage(message, validationMessage, "error");
         return;
     }
 
-    const userJson = JSON.stringify({ username: username, password: password });
-    const userData = JSON.parse(userJson);
-    showMessage(message, "Registration successful for " + userData.username + ". User data was created as JSON.", "success");
+    event.currentTarget.submit();
 }
 
 function handleLogin(event) {
@@ -40,14 +87,13 @@ function handleLogin(event) {
     const message = document.getElementById("login-message");
 
     const validationMessage = validateLogin(username, password);
+
     if (validationMessage) {
         showMessage(message, validationMessage, "error");
         return;
     }
 
-    const userJson = JSON.stringify({ username: username, password: password });
-    const userData = JSON.parse(userJson);
-    showMessage(message, "Login submitted successfully for " + userData.username + ".", "success");
+    event.currentTarget.submit();
 }
 
 function validateRegistration(username, password, confirmPassword) {
