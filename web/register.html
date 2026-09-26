@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | Water Quality Risk Analyzer</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/validation.js" defer></script>
+</head>
+<body>
+    <main class="page-container">
+        <section class="form-card" aria-labelledby="register-title">
+            <a class="brand" href="index.html">Water Quality Risk Analyzer</a>
+            <h1 id="register-title">Create your account</h1>
+            <p class="form-description">Register to access the project demonstration.</p>
+
+            <form id="register-form" novalidate>
+                <div class="form-group">
+                    <label for="register-username">Username</label>
+                    <input type="text" id="register-username" name="username" autocomplete="username" placeholder="Enter username">
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" name="password" autocomplete="new-password" placeholder="Minimum 6 characters">
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirm password</label>
+                    <input type="password" id="confirm-password" name="confirmPassword" autocomplete="new-password" placeholder="Re-enter password">
+                </div>
+                <p id="register-message" class="form-message" role="alert" aria-live="polite"></p>
+                <button type="submit" class="button">Register</button>
+            </form>
+
+            <p class="switch-page">Already registered? <a href="login.html">Login here</a></p>
+        </section>
+    </main>
+</body>
+</html>
