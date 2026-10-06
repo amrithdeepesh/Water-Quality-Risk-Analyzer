@@ -26,6 +26,10 @@ public class RegisterServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String confirmPassword = request.getParameter("confirmPassword");
+        String userType = request.getParameter("userType");
+        if (!"casual".equals(userType) && !"property-owner".equals(userType)) {
+            userType = "casual";
+        }
 
         String appPath = request.getContextPath();
 
@@ -37,7 +41,7 @@ public class RegisterServlet extends HttpServlet {
 
         User user = new User(
                 username == null ? null : username.trim(),
-                password);
+                password, userType);
 
         UserOperations userService = new UserService();
 

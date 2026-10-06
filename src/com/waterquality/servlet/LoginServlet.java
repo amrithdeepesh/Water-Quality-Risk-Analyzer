@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.waterquality.repository.UserRepository;
 import com.waterquality.service.UserOperations;
 import com.waterquality.service.UserService;
 
@@ -37,6 +38,7 @@ public class LoginServlet extends HttpServlet {
 
             HttpSession session = request.getSession(true);
             session.setAttribute("username", username.trim());
+            session.setAttribute("userType", UserRepository.findByUsername(username).getUserType());
 
             response.sendRedirect(appPath + "/dashboard");
         } else {

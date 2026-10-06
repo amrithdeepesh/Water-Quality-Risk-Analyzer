@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register | Water Quality Risk Analyzer</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="js/app-navigation.js"></script>
     <script src="js/validation.js" defer></script>
 </head>
 <body>
@@ -18,6 +19,13 @@
                 <div class="form-group">
                     <label for="register-username">Username</label>
                     <input type="text" id="register-username" name="username" autocomplete="username" placeholder="Enter username">
+                </div>
+                <div class="form-group">
+                    <label for="user-type">I am signing up as</label>
+                    <select id="user-type" name="userType" required>
+                        <option value="casual">Casual user — check a sample</option>
+                        <option value="property-owner">Property owner — monitor a property</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="register-password">Password</label>

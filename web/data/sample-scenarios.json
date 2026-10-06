@@ -1,0 +1,6 @@
+[
+  {"id":"safe","label":"Safe water sample","values":{"state":"Demo State","city":"Demo District","waterSource":"Other","ph":7.2,"turbidity":0.5,"tds":250,"dissolvedOxygen":7,"temperature":22,"hardness":120,"freeChlorine":0.3,"coliformDetected":false}},
+  {"id":"moderate","label":"Moderate risk sample","values":{"state":"Demo State","city":"Demo District","waterSource":"Other","ph":8.7,"turbidity":3,"tds":800,"dissolvedOxygen":4,"temperature":26,"hardness":350,"freeChlorine":0.1,"coliformDetected":false}},
+  {"id":"high","label":"High risk sample","values":{"state":"Demo State","city":"Demo District","waterSource":"Other","ph":9.2,"turbidity":6,"tds":2200,"dissolvedOxygen":2,"temperature":30,"hardness":650,"freeChlorine":0,"coliformDetected":false}},
+  {"id":"critical","label":"Critical risk sample","values":{"state":"Demo State","city":"Demo District","waterSource":"Other","ph":11,"turbidity":25,"tds":5500,"dissolvedOxygen":0.5,"temperature":35,"hardness":2200,"freeChlorine":3,"coliformDetected":true}}
+]
