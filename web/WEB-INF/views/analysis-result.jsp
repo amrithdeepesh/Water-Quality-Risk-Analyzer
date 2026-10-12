@@ -26,7 +26,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Analysis Result | Water Quality Risk Analyzer</title>
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/style.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/style.css?v=20261012-water-theme-2">
 </head>
 <body>
     <main class="page-container">
@@ -42,7 +42,11 @@
                 <%= escapeHtml(sample.getCity()) %>, <%= escapeHtml(sample.getState()) %>
                 · <%= escapeHtml(sample.getWaterSource()) %>
                 · Collected <%= escapeHtml(sample.getCollectionDate()) %>
+                · Test point <%= String.format(java.util.Locale.ROOT, "%.6f, %.6f", sample.getLatitude(), sample.getLongitude()) %>
             </p>
+            <% if (request.getAttribute("storageWarning") != null) { %>
+                <p class="disclaimer" role="status"><%= escapeHtml((String) request.getAttribute("storageWarning")) %></p>
+            <% } %>
             <section class="score-card <%= analysis.getRiskCssClass() %>" aria-label="Overall risk result">
                 <p class="score-label">Project risk score</p>
                 <p class="score-value"><%= analysis.getRiskScore() %><span>/100</span></p>

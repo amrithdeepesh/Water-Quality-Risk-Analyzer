@@ -10,7 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.waterquality.config.Database;
+import com.waterquality.exception.RepositoryException;
+import com.waterquality.model.WaterAnalysisResult;
 import com.waterquality.model.WaterSample;
+import com.waterquality.repository.WaterSampleRepository;
 import com.waterquality.service.WaterAnalysisOperations;
 import com.waterquality.service.WaterQualityAnalyzer;
 
@@ -31,8 +35,22 @@ public class WaterAnalysisServlet extends HttpServlet {
         try {
             WaterSample sample = readSample(request);
             WaterAnalysisOperations analyzer = new WaterQualityAnalyzer();
-            request.setAttribute("analysis",
-                    analyzer.analyze(sample));
+            WaterAnalysisResult analysis = analyzer.analyze(sample);
+            request.setAttribute("analysis", analysis);
+            if (Database.isConfigured()) {
+                try {
+                    WaterSampleRepository.save(
+                            (String) session.getAttribute("username"),
+                            analysis,
+                            "true".equals(request.getParameter("includeOnMap")));
+                } catch (RepositoryException exception) {
+                    request.setAttribute("storageWarning",
+                            "The result is ready, but could not be saved to MySQL.");
+                }
+            } else {
+                request.setAttribute("storageWarning",
+                        "Demo mode: results are not saved. Configure MySQL to keep your history.");
+            }
             request.getRequestDispatcher(
                     "/WEB-INF/views/analysis-result.jsp")
                     .forward(request, response);
@@ -52,7 +70,8 @@ public class WaterAnalysisServlet extends HttpServlet {
         String source = requiredText(request, "waterSource", 30);
         if (!source.equals("Tap Water") && !source.equals("Borewell")
                 && !source.equals("River") && !source.equals("Lake")
-                && !source.equals("Well") && !source.equals("Other")) {
+                && !source.equals("Well") && !source.equals("Spring")
+                && !source.equals("Reservoir") && !source.equals("Other")) {
             throw new IllegalArgumentException("Invalid water source.");
         }
         String date = requiredText(request, "collectionDate", 10);
@@ -65,7 +84,9 @@ public class WaterAnalysisServlet extends HttpServlet {
         if (!"true".equals(bacteria) && !"false".equals(bacteria)) {
             throw new IllegalArgumentException("Select a bacteria indicator.");
         }
-        return new WaterSample(state, city, source, date,
+        double latitude = number(request, "latitude", 6, 38);
+        double longitude = number(request, "longitude", 68, 98);
+        return new WaterSample(state, city, source, date, latitude, longitude,
                 number(request, "ph", 0, 14),
                 number(request, "turbidity", 0, 1000),
                 number(request, "tds", 0, 20000),

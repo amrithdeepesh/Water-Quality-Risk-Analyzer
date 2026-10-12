@@ -438,3 +438,110 @@ fieldset { border-color: #dce9ed; }
 .role-guidance { margin:16px 0; padding:17px 20px; color:#315b68; background:#f4faf9; border-left:4px solid #25a18e; border-radius:8px; }
 .role-guidance p { margin:6px 0 0; color:#5f7386; line-height:1.5; }
 @media(max-width:680px) { .landing-highlights { grid-template-columns:1fr; } }
+
+/* Deep-water visual theme */
+:root {
+    --deep-water: #9ce8ed;
+    --water-blue: #31c6ca;
+    --light-water: #193c49;
+    --ink: #e6f3f4;
+    --muted: #a5bdc5;
+    --surface: #102631;
+}
+body { color: var(--ink); background: radial-gradient(ellipse at 15% 0%, #163f4b 0%, #0a1821 58%, #08131b 100%); }
+.page-container,.landing-page { background: transparent; }
+.dashboard-card,.form-card,.landing-card { color:var(--ink); background:rgba(15,37,48,.97); border:1px solid #28505d; box-shadow:0 24px 72px rgba(0,0,0,.3); }
+h1,h2,h3 { color:#eafafa; }
+.brand,.eyebrow { color:#54d5d4; }
+.form-description,.intro,.switch-page,.dashboard-summary p { color:#a8c0c8; }
+input,select { color:#edf9fa; background:#0b1d26; border-color:#396371; }
+input::placeholder { color:#78939c; }
+input:focus,select:focus { outline:3px solid rgba(49,198,202,.2); border-color:#45d1d2; }
+.button { color:#062026; background:linear-gradient(135deg,#63e0d1,#36c4d0); }
+.button:hover,.button:focus { color:#041a1f; background:#8bf0df; }
+.button-secondary { color:#b8eeee; background:#173946; border:1px solid #326473; }
+.button-secondary:hover,.button-secondary:focus { color:#041a1f; }
+.dashboard-header { border-bottom-color:#254651; }
+.dashboard-nav a { color:#a9c3cb; }
+.dashboard-nav a:hover,.dashboard-nav .nav-current { color:#dffafa; background:#16414b; }
+.welcome-banner { background:linear-gradient(115deg,#153b45,#15313e 70%,#192a41); border:1px solid #2a525c; }
+.role-badge { color:#c7ffff; background:#153744; border-color:#34616b; }
+.dashboard-summary article,.landing-highlights article { background:#132e39; border-color:#294b57; }
+.dashboard-summary strong,.landing-highlights strong { color:#daf8f5; }
+.summary-icon { color:#71e3d2; background:#1b4a50; }
+.map-preview,.scenario-panel { background:#102a35; border-color:#294c58; }
+.map-preview h2,.section-heading { color:#c7f3f2; }
+.map-preview p,.landing-highlights span { color:#a5bdc5; }
+.role-guidance { color:#dcf8f4; background:#12343d; border-left-color:#42d5bd; }
+.role-guidance p { color:#aac3ca; }
+fieldset { border-color:#31515c; }
+legend { color:#bdeeed; }
+.disclaimer,.map-disclaimer { color:#b0c5ca; background:#122a34; border-left-color:#40bdc1; }
+.scenario-button { color:#d6f5f3; background:#15333e; border-color:#3b7680; }
+.scenario-button:hover,.scenario-button:focus { background:#1b4c57; }
+.results-table th,.results-table td { border-bottom-color:#294550; }
+.score-card.safe { color:#bff7d7; background:#164536; }
+.score-card.moderate { color:#ffe2a3; background:#493b20; }
+.score-card.high { color:#ffd0a8; background:#503021; }
+.score-card.critical { color:#ffc2ce; background:#4e2633; }
+.form-message.error { color:#ff9daa; }
+.form-message.success { color:#82e8b5; }
+
+/* Interactive regional map */
+.map-page-card { width:min(100%,1280px); }
+.map-intro { display:flex; align-items:center; justify-content:space-between; gap:18px; margin:22px 0; }
+.map-intro h1 { font-size:clamp(1.8rem,4vw,2.7rem); }
+.map-intro .form-description { margin-bottom:0; }
+.map-toolbar { display:flex; flex-wrap:wrap; gap:12px; margin-bottom:16px; padding:14px; background:#102a35; border:1px solid #294c58; border-radius:12px; }
+.map-toolbar label { min-width:170px; flex:1; margin:0; color:#bcd2d8; font-size:.88rem; }
+.map-toolbar select { display:block; margin-top:6px; }
+.map-layout { display:grid; grid-template-columns:minmax(0,1fr) 245px; gap:16px; }
+#india-water-map { min-height:530px; overflow:hidden; background:#142b35; border:1px solid #31515c; border-radius:15px; }
+.map-sidebar { display:flex; flex-direction:column; gap:16px; padding:20px; background:#102a35; border:1px solid #294c58; border-radius:15px; }
+.map-count { display:flex; align-items:baseline; gap:9px; color:#83e4d5; }
+.map-count span { font-size:2.5rem; font-weight:800; }
+.map-count small,.map-message { color:#a9c0c7; }
+.map-message { margin:0; line-height:1.5; }
+.map-legend { display:grid; gap:11px; color:#d3e4e7; font-size:.9rem; }
+.map-legend span { display:flex; align-items:center; gap:9px; }
+.high-dot { background:#ff8b5e; }
+.map-disclaimer { margin:0; padding:12px; border-radius:0 8px 8px 0; font-size:.85rem; line-height:1.5; }
+.map-sidebar .analyze-button { width:100%; min-width:0; margin-top:auto; }
+.map-back { width:auto; }
+.leaflet-container { font-family:Arial,Helvetica,sans-serif; }
+.leaflet-popup-content-wrapper,.leaflet-popup-tip { color:#e6f3f4; background:#102631; }
+.leaflet-popup-content { line-height:1.65; }
+.leaflet-control-zoom a { color:#173b45; }
+@media(max-width:850px) { .map-layout { grid-template-columns:1fr; } #india-water-map { min-height:430px; } .map-sidebar { display:grid; grid-template-columns:1fr 1fr; } .map-count,.map-sidebar .analyze-button { grid-column:1/-1; } }
+@media(max-width:560px) { .map-intro { align-items:flex-start; flex-direction:column; } .map-toolbar label { min-width:100%; } .map-sidebar { display:flex; } #india-water-map { min-height:380px; } }
+
+.share-map-option { display:flex; align-items:center; gap:10px; margin:10px 0 2px; color:#c5dde1; font-size:.92rem; font-weight:600; }
+.share-map-option input { width:18px; height:18px; flex:0 0 18px; margin:0; padding:0; accent-color:#39cec4; }
+.map-open-button { width:auto; margin-top:14px; }
+
+/* Exact sample location controls */
+.location-panel {
+    margin: 18px 0 14px;
+    padding: 18px;
+    background: #102a35;
+    border: 1px solid #294c58;
+    border-radius: 12px;
+}
+.location-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+.location-heading strong { color: #dffafa; }
+.location-heading p { margin: 6px 0 0; color: #a5bdc5; line-height: 1.5; }
+.location-button { width: auto; flex: 0 0 auto; }
+.location-grid { margin-top: 14px; }
+.location-panel .form-group { margin-bottom: 0; }
+.location-panel .helper-text { margin-bottom: 0; }
+#india-water-map { height: min(68vh, 680px); min-height: 430px; }
+@media(max-width:680px) {
+    .location-heading { align-items: flex-start; flex-direction: column; }
+    .location-button { width: 100%; }
+    #india-water-map { height: 58vh; min-height: 380px; }
+}

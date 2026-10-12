@@ -12,6 +12,10 @@ if (-not (Test-Path -LiteralPath $servletApi)) {
 if (-not (Test-Path -LiteralPath $webSource)) {
     throw 'The project web folder is missing.'
 }
+$mysqlConnector = Join-Path $webSource 'WEB-INF\lib\mysql-connector-j-8.4.0.jar'
+if (-not (Test-Path -LiteralPath $mysqlConnector)) {
+    throw 'The MySQL Connector/J driver is missing from web\WEB-INF\lib.'
+}
 
 $compiler = Get-Command javac -ErrorAction Stop
 $env:JAVA_HOME = Split-Path -Parent (Split-Path -Parent $compiler.Source)
@@ -35,8 +39,35 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
 
+$previousWqDbUser = $env:WQ_DB_USER
+$previousWqDbPassword = $env:WQ_DB_PASSWORD
+$passwordFile = Join-Path $projectRoot '.tools\water-db-password.dpapi'
+$passwordPointer = $null
+if (Test-Path -LiteralPath $passwordFile) {
+    $encryptedPassword = Get-Content -LiteralPath $passwordFile -Raw
+    $securePassword = ConvertTo-SecureString $encryptedPassword.Trim()
+    $passwordPointer = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($securePassword)
+    $env:WQ_DB_USER = 'water_quality_app'
+    $env:WQ_DB_PASSWORD = [Runtime.InteropServices.Marshal]::PtrToStringBSTR($passwordPointer)
+}
+$dbConfigured = -not [string]::IsNullOrWhiteSpace($env:WQ_DB_USER) -and
+    -not [string]::IsNullOrWhiteSpace($env:WQ_DB_PASSWORD)
+if ($dbConfigured) {
+    Write-Output 'Database mode: MySQL'
+} else {
+    Write-Warning 'MySQL is not configured. The app will use temporary demo accounts and demo map data.'
+}
+
 $startup = Join-Path $tomcatHome 'bin\startup.bat'
-Start-Process -FilePath 'C:\Windows\System32\cmd.exe' -ArgumentList @('/c', ('"' + $startup + '"')) -WorkingDirectory $tomcatHome -WindowStyle Hidden
+try {
+    Start-Process -FilePath 'C:\Windows\System32\cmd.exe' -ArgumentList @('/c', ('"' + $startup + '"')) -WorkingDirectory $tomcatHome -WindowStyle Hidden
+} finally {
+    $env:WQ_DB_USER = $previousWqDbUser
+    $env:WQ_DB_PASSWORD = $previousWqDbPassword
+    if ($passwordPointer) {
+        [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($passwordPointer)
+    }
+}
 
 $applicationUrl = 'http://localhost:8081/WaterQualityRiskAnalyzer/'
 $ready = $false

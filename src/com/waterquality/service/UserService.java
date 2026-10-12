@@ -33,9 +33,6 @@ public class UserService implements UserOperations {
 
     @Override
     public boolean authenticate(String username, String password) {
-        User savedUser = UserRepository.findByUsername(username);
-
-        return savedUser != null
-                && savedUser.getPassword().equals(password);
+        return UserRepository.authenticate(username, password);
     }
 }

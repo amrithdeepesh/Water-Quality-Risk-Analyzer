@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.waterquality.exception.InvalidUserInputException;
+import com.waterquality.exception.RepositoryException;
 import com.waterquality.model.User;
 import com.waterquality.service.UserOperations;
 import com.waterquality.service.UserService;
@@ -57,6 +58,10 @@ public class RegisterServlet extends HttpServlet {
         } catch (InvalidUserInputException exception) {
             response.sendRedirect(
                     appPath + "/register.html?error=invalid");
+        } catch (RepositoryException exception) {
+            getServletContext().log("Registration failed while saving the account.", exception);
+            response.sendRedirect(
+                    appPath + "/register.html?error=database-unavailable");
         }
     }
 }

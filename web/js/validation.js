@@ -12,7 +12,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const messages = {
             "password-mismatch": "Passwords do not match.",
             "duplicate": "That username is already registered.",
-            "invalid": "Enter a username of at least 3 characters and a password of at least 6 characters."
+            "invalid": "Enter a username of at least 3 characters and a password of at least 6 characters.",
+            "database-unavailable": "The database is not connected. Ask the project maintainer to finish MySQL setup."
         };
 
         if (messages[error]) {
@@ -43,11 +44,18 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         
         if (query.get("error") === "login-required") {
-        showMessage(
-            document.getElementById("login-message"),
-            "Please log in to view the dashboard.",
-            "error"
-        );
+            showMessage(
+                document.getElementById("login-message"),
+                "Please log in to view the dashboard.",
+                "error"
+            );
+        }
+        if (query.get("error") === "database-unavailable") {
+            showMessage(
+                document.getElementById("login-message"),
+                "The database is not connected. Ask the project maintainer to finish MySQL setup.",
+                "error"
+            );
         }
 
         if (query.get("logout") === "1") {

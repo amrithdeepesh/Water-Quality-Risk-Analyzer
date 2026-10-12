@@ -11,6 +11,31 @@ document.addEventListener("DOMContentLoaded", function () {
     date.value = new Date(today.getTime() - today.getTimezoneOffset() * 60000)
         .toISOString().slice(0, 10);
 
+    const locationButton = document.getElementById("use-current-location");
+    const locationStatus = document.getElementById("location-status");
+    const latitude = document.getElementById("latitude");
+    const longitude = document.getElementById("longitude");
+    if (locationButton && latitude && longitude && locationStatus) {
+        locationButton.addEventListener("click", function () {
+            if (!navigator.geolocation) {
+                locationStatus.textContent = "Location detection is unavailable in this browser. Enter the coordinates manually.";
+                return;
+            }
+            locationButton.disabled = true;
+            locationStatus.textContent = "Finding your location…";
+            navigator.geolocation.getCurrentPosition(function (position) {
+                latitude.value = position.coords.latitude.toFixed(6);
+                longitude.value = position.coords.longitude.toFixed(6);
+                locationStatus.textContent = "Coordinates filled from your device location (accuracy about "
+                    + Math.round(position.coords.accuracy) + " metres). Check that the marker is at your water source.";
+                locationButton.disabled = false;
+            }, function () {
+                locationStatus.textContent = "Could not access your location. Allow location access or enter the coordinates manually.";
+                locationButton.disabled = false;
+            }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 });
+        });
+    }
+
     fetch(panel.getAttribute("data-scenarios"))
         .then(function (response) {
             if (!response.ok) throw new Error("Scenario data unavailable");

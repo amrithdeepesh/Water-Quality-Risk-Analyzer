@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Water Analysis | Water Quality Risk Analyzer</title>
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/style.css">
-    <script src="<%= request.getContextPath() %>/js/analysis.js" defer></script>
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/style.css?v=20261012-water-theme-2">
+    <script src="<%= request.getContextPath() %>/js/analysis.js?v=20261012-location" defer></script>
 </head>
 <body>
     <main class="page-container">
@@ -22,7 +22,7 @@
             <nav class="dashboard-nav" aria-label="Dashboard navigation">
                 <a class="nav-current" href="<%= request.getContextPath() %>/dashboard">Overview</a>
                 <a href="#analysis-form">Analyze sample</a>
-                <a href="#regional-map">Regional map</a>
+                <a href="<%= request.getContextPath() %>/map">Regional map</a>
             </nav>
             <section class="welcome-banner">
                 <div>
@@ -44,20 +44,22 @@
             <section class="dashboard-summary">
                 <article><span class="summary-icon">01</span><div><strong>Start a water check</strong><p>Enter results from a water test kit or lab.</p></div></article>
                 <article><span class="summary-icon">02</span><div><strong>Understand the result</strong><p>See risk bands and a note for each measure.</p></div></article>
-                <article><span class="summary-icon">03</span><div><strong>Explore local patterns</strong><p>Regional map planned for verified sample data.</p></div></article>
+                <article><span class="summary-icon">03</span><div><strong>Explore local patterns</strong><p>Browse mapped practice samples and opt-in community reports.</p></div></article>
             </section>
             <section class="map-preview" id="regional-map">
                 <div>
-                    <p class="eyebrow">Regional water map</p>
-                    <h2>See patterns across India</h2>
-                    <p>Future map colors each area by the latest reported sample results. It will show sample count, date, and data source when you select a region.</p>
+                    <p class="eyebrow">Interactive regional map</p>
+                    <h2>Explore sample locations across India</h2>
+                    <p>Filter map samples by risk, water source, and collection date. Shared user samples use the GPS point you enter; demonstration samples use city-center points.</p>
+                    <a class="button button-secondary map-open-button" href="<%= request.getContextPath() %>/map">Open the interactive map</a>
                 </div>
                 <div class="map-legend" aria-label="Map color legend">
                     <span><i class="legend-dot safe-dot"></i>Lower risk</span>
                     <span><i class="legend-dot moderate-dot"></i>Moderate</span>
-                    <span><i class="legend-dot critical-dot"></i>Higher risk</span>
+                    <span><i class="legend-dot high-dot"></i>High</span>
+                    <span><i class="legend-dot critical-dot"></i>Critical</span>
                 </div>
-                <p class="map-note">Map data is not connected yet. No regional safety claims are shown here.</p>
+                <p class="map-note">Demo points are synthetic practice data. Shared user samples appear only when the contributor opts in.</p>
             </section>
             <h2 class="section-heading" id="recent-activity">New sample analysis</h2>
             <p class="form-description">Enter laboratory or field-test values, or load a demo scenario and adjust it.</p>
@@ -75,8 +77,23 @@
                     <legend>Sample details</legend>
                     <div class="analysis-grid">
                         <div class="form-group">
-                            <label for="state">State</label>
-                            <input id="state" name="state" maxlength="80" required>
+                            <label for="state">State or union territory</label>
+                            <select id="state" name="state" required>
+                                <option value="">Choose a state or UT</option>
+                                <option>Andhra Pradesh</option><option>Arunachal Pradesh</option>
+                                <option>Assam</option><option>Bihar</option><option>Chandigarh</option>
+                                <option>Chhattisgarh</option><option>Dadra and Nagar Haveli and Daman and Diu</option>
+                                <option>Delhi</option><option>Goa</option><option>Gujarat</option>
+                                <option>Haryana</option><option>Himachal Pradesh</option><option>Jammu and Kashmir</option>
+                                <option>Jharkhand</option><option>Karnataka</option><option>Kerala</option>
+                                <option>Ladakh</option><option>Lakshadweep</option><option>Madhya Pradesh</option>
+                                <option>Maharashtra</option><option>Manipur</option><option>Meghalaya</option>
+                                <option>Mizoram</option><option>Nagaland</option><option>Odisha</option>
+                                <option>Puducherry</option><option>Punjab</option><option>Rajasthan</option>
+                                <option>Sikkim</option><option>Tamil Nadu</option><option>Telangana</option>
+                                <option>Tripura</option><option>Uttar Pradesh</option><option>Uttarakhand</option>
+                                <option>West Bengal</option><option>Andaman and Nicobar Islands</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="city">District or city</label>
@@ -91,6 +108,8 @@
                                 <option>River</option>
                                 <option>Lake</option>
                                 <option>Well</option>
+                                <option>Spring</option>
+                                <option>Reservoir</option>
                                 <option>Other</option>
                             </select>
                         </div>
@@ -99,6 +118,30 @@
                             <input id="collectionDate" name="collectionDate" type="date" required>
                         </div>
                     </div>
+                    <div class="location-panel">
+                        <div class="location-heading">
+                            <div>
+                                <strong>Exact test point</strong>
+                                <p>Enter the GPS coordinates where you collected this water. Choose the tap, well, or other source above.</p>
+                            </div>
+                            <button id="use-current-location" class="button button-secondary location-button" type="button">Use my current location</button>
+                        </div>
+                        <div class="analysis-grid location-grid">
+                            <div class="form-group">
+                                <label for="latitude">Latitude</label>
+                                <input id="latitude" name="latitude" type="number" min="6" max="38" step="0.000001" placeholder="e.g. 12.971600" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="longitude">Longitude</label>
+                                <input id="longitude" name="longitude" type="number" min="68" max="98" step="0.000001" placeholder="e.g. 77.594600" required>
+                            </div>
+                        </div>
+                        <p id="location-status" class="helper-text" role="status" aria-live="polite">Coordinates are saved with your analysis. On the map, they are shown only if you choose to share this sample.</p>
+                    </div>
+                    <label class="share-map-option">
+                        <input type="checkbox" name="includeOnMap" value="true">
+                        Share this sample and its exact map location anonymously (visible to map visitors)
+                    </label>
                 </fieldset>
                 <fieldset>
                     <legend>Water parameters</legend>

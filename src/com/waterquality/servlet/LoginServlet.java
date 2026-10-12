@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.waterquality.repository.UserRepository;
+import com.waterquality.exception.RepositoryException;
 import com.waterquality.service.UserOperations;
 import com.waterquality.service.UserService;
 
@@ -29,21 +30,24 @@ public class LoginServlet extends HttpServlet {
         UserOperations userService = new UserService();
         String appPath = request.getContextPath();
 
-        if (userService.authenticate(username, password)) {
-            HttpSession oldSession = request.getSession(false);
-
-            if (oldSession != null) {
-                oldSession.invalidate();
+        try {
+            if (userService.authenticate(username, password)) {
+                HttpSession oldSession = request.getSession(false);
+                if (oldSession != null) {
+                    oldSession.invalidate();
+                }
+                HttpSession session = request.getSession(true);
+                session.setAttribute("username", username.trim());
+                session.setAttribute("userType",
+                        UserRepository.findByUsername(username).getUserType());
+                response.sendRedirect(appPath + "/dashboard");
+            } else {
+                response.sendRedirect(
+                        appPath + "/login.html?error=invalid-credentials");
             }
-
-            HttpSession session = request.getSession(true);
-            session.setAttribute("username", username.trim());
-            session.setAttribute("userType", UserRepository.findByUsername(username).getUserType());
-
-            response.sendRedirect(appPath + "/dashboard");
-        } else {
-            response.sendRedirect(
-                    appPath + "/login.html?error=invalid-credentials");
+        } catch (RepositoryException exception) {
+            getServletContext().log("Login failed while checking the account.", exception);
+            response.sendRedirect(appPath + "/login.html?error=database-unavailable");
         }
     }
 }
