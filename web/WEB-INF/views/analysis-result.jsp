@@ -42,6 +42,7 @@
                 <%= escapeHtml(sample.getCity()) %>, <%= escapeHtml(sample.getState()) %>
                 · <%= escapeHtml(sample.getWaterSource()) %>
                 · Collected <%= escapeHtml(sample.getCollectionDate()) %>
+                · PIN <%= escapeHtml((String) request.getAttribute("pincode")) %>
                 · Test point <%= String.format(java.util.Locale.ROOT, "%.6f, %.6f", sample.getLatitude(), sample.getLongitude()) %>
             </p>
             <% if (request.getAttribute("storageWarning") != null) { %>

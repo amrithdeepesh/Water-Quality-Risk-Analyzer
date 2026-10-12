@@ -545,3 +545,11 @@ legend { color:#bdeeed; }
     .location-button { width: 100%; }
     #india-water-map { height: 58vh; min-height: 380px; }
 }
+
+/* PIN-code-assisted water sampling point picker */
+.pin-lookup-row { display: grid; grid-template-columns: auto minmax(180px, 1fr); gap: 8px 14px; align-items: end; margin-top: 1rem; }
+.pin-lookup-row label { grid-column: 2; grid-row: 1; margin-bottom: -6px; }
+.pin-lookup-row button { grid-column: 1; grid-row: 2; }
+.pin-lookup-row select { grid-column: 2; grid-row: 2; }
+.sample-location-map { height: 330px; width: 100%; border: 1px solid rgba(134, 204, 224, .35); border-radius: 14px; overflow: hidden; margin: .75rem 0; background: #102a38; }
+@media (max-width: 620px) { .pin-lookup-row { grid-template-columns: 1fr; } .pin-lookup-row label, .pin-lookup-row button, .pin-lookup-row select { grid-column: 1; grid-row: auto; } .sample-location-map { height: 280px; } }

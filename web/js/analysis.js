@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
             navigator.geolocation.getCurrentPosition(function (position) {
                 latitude.value = position.coords.latitude.toFixed(6);
                 longitude.value = position.coords.longitude.toFixed(6);
+                if (window.updateSampleMapPoint) window.updateSampleMapPoint(latitude.value, longitude.value, true);
                 locationStatus.textContent = "Coordinates filled from your device location (accuracy about "
                     + Math.round(position.coords.accuracy) + " metres). Check that the marker is at your water source.";
                 locationButton.disabled = false;

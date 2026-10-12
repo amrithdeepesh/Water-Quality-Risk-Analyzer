@@ -5,8 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Water Analysis | Water Quality Risk Analyzer</title>
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/style.css?v=20261012-water-theme-2">
-    <script src="<%= request.getContextPath() %>/js/analysis.js?v=20261012-location" defer></script>
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/style.css?v=20261012-water-theme-3">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+    <script src="<%= request.getContextPath() %>/js/location-picker.js?v=20261012-pincode" defer></script>
+    <script src="<%= request.getContextPath() %>/js/analysis.js?v=20261012-pincode" defer></script>
 </head>
 <body>
     <main class="page-container">
@@ -62,7 +65,7 @@
                 <p class="map-note">Demo points are synthetic practice data. Shared user samples appear only when the contributor opts in.</p>
             </section>
             <h2 class="section-heading" id="recent-activity">New sample analysis</h2>
-            <p class="form-description">Enter laboratory or field-test values, or load a demo scenario and adjust it.</p>
+            <p class="form-description">Enter laboratory or field-test values, add your 6-digit PIN code, then choose the actual sampling point on the map. A postal PIN only identifies a broader area.</p>
             <% if (request.getAttribute("analysisError") != null) { %>
                 <p class="form-message error" role="alert"><%= request.getAttribute("analysisError") %></p>
             <% } %>
@@ -100,6 +103,10 @@
                             <input id="city" name="city" maxlength="100" required>
                         </div>
                         <div class="form-group">
+                            <label for="pincode">India PIN code</label>
+                            <input id="pincode" name="pincode" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[1-9][0-9]{5}" maxlength="6" required placeholder="6-digit PIN code">
+                        </div>
+                        <div class="form-group">
                             <label for="waterSource">Water source</label>
                             <select id="waterSource" name="waterSource" required>
                                 <option value="">Choose a source</option>
@@ -126,6 +133,14 @@
                             </div>
                             <button id="use-current-location" class="button button-secondary location-button" type="button">Use my current location</button>
                         </div>
+                        <div class="form-group pin-lookup-row">
+                            <button id="locate-pincode" class="button button-secondary location-button" type="button">Find PIN area</button>
+                            <label for="pin-office">Post office reference point</label>
+                            <select id="pin-office" disabled><option value="">Enter a PIN code to find nearby post offices</option></select>
+                        </div>
+                        <p id="pin-status" class="helper-text" role="status" aria-live="polite">PIN code helps locate the postal area. Select the actual sample point on the map below.</p>
+                        <div id="sample-location-map" class="sample-location-map" role="application" aria-label="Choose the exact water sampling point on the map" data-pincode-dataset="<%= request.getContextPath() %>/data/india-pincode-offices.json"></div>
+                        <p class="helper-text">Click the map to place the marker at the water source. PIN and post-office coordinates are approximate area references only.</p>
                         <div class="analysis-grid location-grid">
                             <div class="form-group">
                                 <label for="latitude">Latitude</label>

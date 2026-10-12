@@ -75,7 +75,7 @@ JSON is a text format for structured data. The project uses JSON for sample scen
 
 Map navigation: drag inside the map to pan; use the plus/minus controls, mouse wheel, or touch gestures to zoom. A map marker popup shows the source, date, project risk band, and exact saved coordinates.
 
-Location behavior: the user enters latitude and longitude or chooses Use my current location. Device location can be several metres away from the actual tap or well, so the user must confirm or adjust the coordinates. The application stores coordinates for the analysis. A sample appears on the shared map only when its owner checks the explicit sharing option; shared exact coordinates are visible to map visitors.
+Location behavior: the user enters a six-digit India PIN, can search its bundled postal-office coordinates, and then clicks the actual sampling point on the Leaflet map or chooses Use my current location. The PIN dataset has limited coordinate coverage and a postal-office point is only an area reference, not the location of a tap or well. Device GPS can also be several metres away, so the user must confirm or adjust the point. Source details and coverage are documented in web/data/PIN-DATA-SOURCE.md. The application stores coordinates for the analysis. A sample appears on the shared map only when its owner checks the explicit sharing option; shared exact coordinates are visible to map visitors.
 
 ## Phase 4: servlets, sessions, database, and Tomcat
 
