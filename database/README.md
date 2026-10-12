@@ -8,7 +8,8 @@ The project supports MySQL 8. Without MySQL credentials it falls back to tempora
 2. Open PowerShell in C:/water_java/WaterQualityRiskAnalyzer.
 3. Run .\setup-mysql.ps1.
 4. Enter a MySQL administrator username and password at the prompts. The password prompt is hidden.
-5. The script creates the database, tables, 41 synthetic practice map samples, and a restricted application account. It stores the app password encrypted under the ignored .tools folder for the same Windows account.
+5. The script creates the database and tables, loads 41 original plus 100 additional synthetic practice map samples (141 total), and creates a restricted application account. It stores the app password encrypted under the ignored .tools folder for the same Windows account.
+6. The extra synthetic samples are in [demo-map-samples.sql](demo-map-samples.sql). The seed is safe to run again and will not duplicate those 100 sites.
 
 Then run .\run-web.ps1. If an old Tomcat process is already using port 8081, stop it first.
 

@@ -26,6 +26,12 @@ try {
         throw 'Schema setup failed. Check your MySQL username, password, and service.'
     }
 
+    $demoSamplesPath = (Join-Path $projectRoot 'database\demo-map-samples.sql').Replace('\', '/')
+    & $mysqlExe "--user=$adminUser" --host=127.0.0.1 --port=3306 --default-character-set=utf8mb4 "--execute=SOURCE $demoSamplesPath;"
+    if ($LASTEXITCODE -ne 0) {
+        throw 'The database tables were created, but the additional synthetic map samples could not be loaded.'
+    }
+
     $characters = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789'
     $randomBytes = New-Object byte[] 48
     [Security.Cryptography.RandomNumberGenerator]::Create().GetBytes($randomBytes)
