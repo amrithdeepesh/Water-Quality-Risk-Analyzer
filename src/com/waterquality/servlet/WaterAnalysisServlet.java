@@ -68,9 +68,12 @@ public class WaterAnalysisServlet extends HttpServlet {
     private WaterSample readSample(HttpServletRequest request) {
         String state = requiredText(request, "state", 80);
         String city = requiredText(request, "city", 100);
-        String pincode = requiredText(request, "pincode", 6);
-        if (!pincode.matches("[1-9][0-9]{5}")) {
-            throw new IllegalArgumentException("Enter a valid six-digit Indian PIN code.");
+        String pincode = request.getParameter("pincode");
+        if (pincode != null && !pincode.trim().isEmpty()) {
+            pincode = pincode.trim();
+            if (!pincode.matches("[1-9][0-9]{5}")) {
+                throw new IllegalArgumentException("Enter a valid six-digit Indian PIN code.");
+            }
         }
         String source = requiredText(request, "waterSource", 30);
         if (!source.equals("Tap Water") && !source.equals("Borewell")

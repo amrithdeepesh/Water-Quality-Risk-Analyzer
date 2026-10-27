@@ -6,8 +6,6 @@ import java.security.SecureRandom;
 import java.util.Arrays;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
-
-/** PBKDF2 password storage helper using only the Java 8 standard library. */
 public final class PasswordHasher {
     private static final int ITERATIONS = 120000;
     private static final int SALT_BYTES = 16;

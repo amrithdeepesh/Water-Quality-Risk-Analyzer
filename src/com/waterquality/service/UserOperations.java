@@ -10,4 +10,6 @@ public interface UserOperations {
     boolean register(User user) throws InvalidUserInputException;
 
     boolean authenticate(String username, String password);
-}
+
+    String getUserDataAsJson(User user);
+}

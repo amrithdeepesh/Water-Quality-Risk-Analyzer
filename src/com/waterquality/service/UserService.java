@@ -14,12 +14,12 @@ public class UserService implements UserOperations {
 
         if (!user.isUsernameValid()) {
             throw new InvalidUserInputException(
-                    "Invalid username. Username must contain at least 3 characters.");
+                    "Invalid username. Username must contain 3-30 alphanumeric characters, dots, hyphens, or underscores.");
         }
 
         if (!user.isPasswordValid()) {
             throw new InvalidUserInputException(
-                    "Invalid password. Password must contain at least 6 characters.");
+                    "Invalid password. Password must contain between 6 and 64 characters.");
         }
 
         return true;
@@ -35,4 +35,9 @@ public class UserService implements UserOperations {
     public boolean authenticate(String username, String password) {
         return UserRepository.authenticate(username, password);
     }
-}
+
+    @Override
+    public String getUserDataAsJson(User user) {
+        return user == null ? "{}" : user.toJson();
+    }
+}

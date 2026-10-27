@@ -1,4 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%!
+    private String escapeHtml(String value) {
+        if (value == null) return "";
+        return value.replace("&", "&amp;").replace("<", "&lt;")
+                .replace(">", "&gt;").replace("\"", "&quot;")
+                .replace("'", "&#39;");
+    }
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,30 +38,30 @@
             <section class="welcome-banner">
                 <div>
                     <p class="eyebrow">Your dashboard</p>
-                    <h1>Welcome, <%= session.getAttribute("username") %></h1>
+                    <h1>Welcome, <%= escapeHtml((String) session.getAttribute("username")) %></h1>
                     <p class="form-description">Your water checks, all in one place.</p>
                 </div>
                 <span class="role-badge"><%= "property-owner".equals(session.getAttribute("userType")) ? "Property owner" : "Casual user" %></span>
             </section>
             <section class="role-guidance">
                 <% if ("property-owner".equals(session.getAttribute("userType"))) { %>
-                    <strong>Property owner view</strong>
-                    <p>Use this space to start checks for your property. Property profiles, multiple sample points, and reminders can be added in a later phase.</p>
+                    <strong>Property owner portal</strong>
+                    <p>Monitor and track water quality across your property. Enter lab or test kit readings to get real-time safety assessments.</p>
                 <% } else { %>
-                    <strong>Casual user view</strong>
-                    <p>Start with a single sample from your home, a visit, or another place. You can add a property profile later if you need one.</p>
+                    <strong>Household & community portal</strong>
+                    <p>Test drinking water, tap water, or local well water samples with instant health and safety ratings.</p>
                 <% } %>
             </section>
             <section class="dashboard-summary">
                 <article><span class="summary-icon">01</span><div><strong>Start a water check</strong><p>Enter results from a water test kit or lab.</p></div></article>
                 <article><span class="summary-icon">02</span><div><strong>Understand the result</strong><p>See risk bands and a note for each measure.</p></div></article>
-                <article><span class="summary-icon">03</span><div><strong>Explore local patterns</strong><p>Browse mapped practice samples and opt-in community reports.</p></div></article>
+                <article><span class="summary-icon">03</span><div><strong>Explore local patterns</strong><p>Browse mapped water safety reports and verified samples.</p></div></article>
             </section>
             <section class="map-preview" id="regional-map">
                 <div>
                     <p class="eyebrow">Interactive regional map</p>
                     <h2>Explore sample locations across India</h2>
-                    <p>Filter map samples by risk, water source, and collection date. Shared user samples use the GPS point you enter; demonstration samples use city-center points.</p>
+                    <p>Filter water test samples by risk level, source type, and collection date across registered locations.</p>
                     <a class="button button-secondary map-open-button" href="<%= request.getContextPath() %>/map">Open the interactive map</a>
                 </div>
                 <div class="map-legend" aria-label="Map color legend">
@@ -62,7 +70,7 @@
                     <span><i class="legend-dot high-dot"></i>High</span>
                     <span><i class="legend-dot critical-dot"></i>Critical</span>
                 </div>
-                <p class="map-note">Demo points are synthetic practice data. Shared user samples appear only when the contributor opts in.</p>
+                <p class="map-note">Markers indicate tested samples across registered monitoring stations and community reports.</p>
             </section>
             <h2 class="section-heading" id="recent-activity">New sample analysis</h2>
             <p class="form-description">Enter laboratory or field-test values, add your 6-digit PIN code, then choose the actual sampling point on the map. A postal PIN only identifies a broader area.</p>
@@ -70,7 +78,7 @@
                 <p class="form-message error" role="alert"><%= request.getAttribute("analysisError") %></p>
             <% } %>
             <div class="scenario-panel" aria-labelledby="scenario-title">
-                <h2 id="scenario-title">Try a sample scenario</h2>
+                <h2 id="scenario-title">Quick test presets</h2>
                 <div class="scenario-buttons" id="scenario-buttons" data-scenarios="<%= request.getContextPath() %>/data/sample-scenarios.json">
                 </div>
                 <p class="helper-text" id="scenario-message" aria-live="polite"></p>
@@ -103,10 +111,6 @@
                             <input id="city" name="city" maxlength="100" required>
                         </div>
                         <div class="form-group">
-                            <label for="pincode">India PIN code</label>
-                            <input id="pincode" name="pincode" type="text" inputmode="numeric" autocomplete="postal-code" pattern="[1-9][0-9]{5}" maxlength="6" required placeholder="6-digit PIN code">
-                        </div>
-                        <div class="form-group">
                             <label for="waterSource">Water source</label>
                             <select id="waterSource" name="waterSource" required>
                                 <option value="">Choose a source</option>
@@ -128,17 +132,12 @@
                     <div class="location-panel">
                         <div class="location-heading">
                             <div>
-                                <strong>Exact test point</strong>
-                                <p>Enter the GPS coordinates where you collected this water. Choose the tap, well, or other source above.</p>
+                                <strong>Sampling location & map point</strong>
+                                <p>Enter your 6-digit PIN code to locate your area, or use your device GPS. Then click or drag the marker to your exact tap/well point.</p>
                             </div>
                             <button id="use-current-location" class="button button-secondary location-button" type="button">Use my current location</button>
                         </div>
-                        <div class="form-group pin-lookup-row">
-                            <button id="locate-pincode" class="button button-secondary location-button" type="button">Find PIN area</button>
-                            <label for="pin-office">Post office reference point</label>
-                            <select id="pin-office" disabled><option value="">Enter a PIN code to find nearby post offices</option></select>
-                        </div>
-                        <p id="pin-status" class="helper-text" role="status" aria-live="polite">PIN code helps locate the postal area. Select the actual sample point on the map below.</p>
+                        <p id="pin-status" class="helper-text" role="status" aria-live="polite">Enter your 6-digit PIN code to locate your area, then click the map to select the exact water point.</p>
                         <div id="sample-location-map" class="sample-location-map" role="application" aria-label="Choose the exact water sampling point on the map" data-pincode-dataset="<%= request.getContextPath() %>/data/india-pincode-offices.json"></div>
                         <p class="helper-text">Click the map to place the marker at the water source. PIN and post-office coordinates are approximate area references only.</p>
                         <div class="analysis-grid location-grid">

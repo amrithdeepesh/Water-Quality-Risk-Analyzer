@@ -393,8 +393,6 @@ select:focus {
         width: 100%;
     }
 }
-
-/* Dashboard refresh */
 body { background: #f3f8fa; }
 .dashboard-card { width: min(100%, 1180px); border: 0; border-radius: 22px; box-shadow: 0 16px 48px rgba(17, 65, 84, .09); }
 .dashboard-header { padding-bottom: 18px; border-bottom: 1px solid #e5eef2; }
@@ -438,8 +436,6 @@ fieldset { border-color: #dce9ed; }
 .role-guidance { margin:16px 0; padding:17px 20px; color:#315b68; background:#f4faf9; border-left:4px solid #25a18e; border-radius:8px; }
 .role-guidance p { margin:6px 0 0; color:#5f7386; line-height:1.5; }
 @media(max-width:680px) { .landing-highlights { grid-template-columns:1fr; } }
-
-/* Deep-water visual theme */
 :root {
     --deep-water: #9ce8ed;
     --water-blue: #31c6ca;
@@ -486,8 +482,6 @@ legend { color:#bdeeed; }
 .score-card.critical { color:#ffc2ce; background:#4e2633; }
 .form-message.error { color:#ff9daa; }
 .form-message.success { color:#82e8b5; }
-
-/* Interactive regional map */
 .map-page-card { width:min(100%,1280px); }
 .map-intro { display:flex; align-items:center; justify-content:space-between; gap:18px; margin:22px 0; }
 .map-intro h1 { font-size:clamp(1.8rem,4vw,2.7rem); }
@@ -518,8 +512,6 @@ legend { color:#bdeeed; }
 .share-map-option { display:flex; align-items:center; gap:10px; margin:10px 0 2px; color:#c5dde1; font-size:.92rem; font-weight:600; }
 .share-map-option input { width:18px; height:18px; flex:0 0 18px; margin:0; padding:0; accent-color:#39cec4; }
 .map-open-button { width:auto; margin-top:14px; }
-
-/* Exact sample location controls */
 .location-panel {
     margin: 18px 0 14px;
     padding: 18px;
@@ -545,11 +537,39 @@ legend { color:#bdeeed; }
     .location-button { width: 100%; }
     #india-water-map { height: 58vh; min-height: 380px; }
 }
-
-/* PIN-code-assisted water sampling point picker */
+.pin-lookup-grid {
+    display: grid;
+    grid-template-columns: minmax(240px, 1.25fr) minmax(200px, 1fr);
+    gap: 14px;
+    align-items: end;
+    margin: 14px 0 10px;
+}
+.pin-input-action-wrap {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+}
+.pin-input-action-wrap input {
+    flex: 1;
+    min-width: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+}
+.pin-input-action-wrap button {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    padding: 10px 18px;
+}
 .pin-lookup-row { display: grid; grid-template-columns: auto minmax(180px, 1fr); gap: 8px 14px; align-items: end; margin-top: 1rem; }
 .pin-lookup-row label { grid-column: 2; grid-row: 1; margin-bottom: -6px; }
 .pin-lookup-row button { grid-column: 1; grid-row: 2; }
 .pin-lookup-row select { grid-column: 2; grid-row: 2; }
-.sample-location-map { height: 330px; width: 100%; border: 1px solid rgba(134, 204, 224, .35); border-radius: 14px; overflow: hidden; margin: .75rem 0; background: #102a38; }
-@media (max-width: 620px) { .pin-lookup-row { grid-template-columns: 1fr; } .pin-lookup-row label, .pin-lookup-row button, .pin-lookup-row select { grid-column: 1; grid-row: auto; } .sample-location-map { height: 280px; } }
+.sample-location-map { height: 350px; width: 100%; border: 1px solid rgba(134, 204, 224, .35); border-radius: 14px; overflow: hidden; margin: .75rem 0; background: #102a38; }
+@media (max-width: 680px) {
+    .pin-lookup-grid { grid-template-columns: 1fr; }
+    .pin-input-action-wrap button { width: auto; }
+    .pin-lookup-row { grid-template-columns: 1fr; }
+    .pin-lookup-row label, .pin-lookup-row button, .pin-lookup-row select { grid-column: 1; grid-row: auto; }
+    .sample-location-map { height: 280px; }
+}

@@ -8,8 +8,9 @@ A Java Servlet/JSP coursework project for user registration, water-sample analys
 |---|---|
 | 1. Core application setup and design | Complete for coursework scope |
 | 2. Structured programming and reliability | Complete for coursework scope |
-| 3. Web interface and client interaction | Mostly complete; user-account JSON representation remains to satisfy one rubric item |
-| 4. Server-side integration and execution | Complete as a local Tomcat/MySQL demo |
+| 3. Web interface and client interaction | Complete for coursework scope (HTML/CSS, JS validation, JSON user data) |
+| 4. Server-side integration and execution | Complete for coursework scope (Servlets GET/POST, sessions, JSP dashboard, Tomcat) |
+
 
 See PROJECT_PHASES_AND_A_TO_Z_GUIDE.md for the detailed rubric audit, request flows, test report, learning guide, and real-world readiness gaps.
 

@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const messages = {
             "password-mismatch": "Passwords do not match.",
             "duplicate": "That username is already registered.",
-            "invalid": "Enter a username of at least 3 characters and a password of at least 6 characters.",
+            "invalid": "Enter a valid username (3-30 letters/numbers) and password (6-64 characters).",
             "database-unavailable": "The database is not connected. Ask the project maintainer to finish MySQL setup."
         };
 
@@ -131,8 +131,21 @@ function validateLogin(username, password) {
         return "Username must contain at least 3 characters.";
     }
 
+    if (username.length > 30) {
+        return "Username cannot exceed 30 characters.";
+    }
+
+    const usernamePattern = /^[a-zA-Z0-9_.-]+$/;
+    if (!usernamePattern.test(username)) {
+        return "Username can only contain letters, numbers, dots, hyphens, and underscores.";
+    }
+
     if (password.length < 6) {
         return "Password must contain at least 6 characters.";
+    }
+
+    if (password.length > 64) {
+        return "Password cannot exceed 64 characters.";
     }
 
     return "";

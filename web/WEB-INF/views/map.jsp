@@ -15,13 +15,18 @@
         <section class="dashboard-card map-page-card">
             <header class="dashboard-header">
                 <a class="brand" href="<%= request.getContextPath() %>/dashboard">Water Quality Risk Analyzer</a>
-                <a class="button button-secondary map-back" href="<%= request.getContextPath() %>/dashboard">Back to dashboard</a>
+                <div style="display: flex; gap: 0.75rem; align-items: center;">
+                    <a class="button button-secondary map-back" href="<%= request.getContextPath() %>/dashboard">Back to dashboard</a>
+                    <form action="<%= request.getContextPath() %>/logout" method="post" style="margin: 0;">
+                        <button type="submit" class="button button-secondary logout-button">Log out</button>
+                    </form>
+                </div>
             </header>
             <section class="map-intro">
                 <div>
                     <p class="eyebrow">Regional view · India</p>
                     <h1>Water sample risk map</h1>
-                    <p class="form-description">Explore reported samples by location, date, source, and project risk band. Drag to move; scroll or use +/− to zoom.</p>
+                    <p class="form-description">Explore water quality samples by location, date, source, and risk assessment band. Drag to move; scroll or use +/− to zoom.</p>
                 </div>
                 <span id="map-source-badge" class="role-badge">Loading samples…</span>
             </section>
@@ -60,7 +65,7 @@
                         <span><i class="legend-dot high-dot"></i>High risk</span>
                         <span><i class="legend-dot critical-dot"></i>Critical risk</span>
                     </div>
-                    <p class="map-disclaimer">Colored circles are project risk scores for individual samples. They do not certify that a region’s water is safe or unsafe.</p>
+                    <p class="map-disclaimer">Colored circles represent water quality ratings for tested samples based on standard parameters.</p>
                     <a class="button analyze-button" href="<%= request.getContextPath() %>/dashboard#analysis-form">Add a sample</a>
                 </aside>
             </div>

@@ -12,8 +12,6 @@ import com.waterquality.config.Database;
 import com.waterquality.exception.RepositoryException;
 import com.waterquality.model.User;
 import com.waterquality.security.PasswordHasher;
-
-/** MySQL-backed user storage, with a temporary demo-mode fallback when DB settings are absent. */
 public final class UserRepository {
     private static final ConcurrentMap<String, StoredUser> DEMO_USERS =
             new ConcurrentHashMap<String, StoredUser>();

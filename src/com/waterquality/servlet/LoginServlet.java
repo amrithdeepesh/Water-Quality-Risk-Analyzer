@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.waterquality.model.User;
 import com.waterquality.repository.UserRepository;
 import com.waterquality.exception.RepositoryException;
 import com.waterquality.service.UserOperations;
@@ -18,9 +19,17 @@ import com.waterquality.service.UserService;
 public class LoginServlet extends HttpServlet {
 
     @Override
+    protected void doGet(HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
+        response.sendRedirect(request.getContextPath() + "/login.html");
+    }
+
+    @Override
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
+
 
         request.setCharacterEncoding("UTF-8");
 
@@ -38,8 +47,9 @@ public class LoginServlet extends HttpServlet {
                 }
                 HttpSession session = request.getSession(true);
                 session.setAttribute("username", username.trim());
-                session.setAttribute("userType",
-                        UserRepository.findByUsername(username).getUserType());
+                User authenticatedUser = UserRepository.findByUsername(username);
+                String userType = (authenticatedUser != null) ? authenticatedUser.getUserType() : "casual";
+                session.setAttribute("userType", userType);
                 response.sendRedirect(appPath + "/dashboard");
             } else {
                 response.sendRedirect(

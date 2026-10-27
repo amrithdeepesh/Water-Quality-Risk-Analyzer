@@ -56,6 +56,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     });
                     message.textContent = scenario.label
                         + " loaded. You can edit the values before analysis.";
+                    if (window.triggerPinLookup && form.elements["pincode"] && form.elements["pincode"].value) {
+                        window.triggerPinLookup();
+                    }
                 });
                 panel.appendChild(button);
             });

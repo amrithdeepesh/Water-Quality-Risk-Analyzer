@@ -10,8 +10,6 @@ import com.waterquality.config.Database;
 import com.waterquality.exception.RepositoryException;
 import com.waterquality.model.WaterAnalysisResult;
 import com.waterquality.model.WaterSample;
-
-/** Stores analyses and returns only demo or explicitly shared records for the map. */
 public final class WaterSampleRepository {
     private WaterSampleRepository() { }
 

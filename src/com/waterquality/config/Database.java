@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-/** Reads database settings from environment variables; credentials stay out of source control. */
 public final class Database {
     private static final String DEFAULT_URL =
             "jdbc:mysql://127.0.0.1:3306/water_quality_analyzer"

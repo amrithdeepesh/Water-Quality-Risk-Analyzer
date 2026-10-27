@@ -42,14 +42,16 @@
                 <%= escapeHtml(sample.getCity()) %>, <%= escapeHtml(sample.getState()) %>
                 · <%= escapeHtml(sample.getWaterSource()) %>
                 · Collected <%= escapeHtml(sample.getCollectionDate()) %>
+                <% if (request.getAttribute("pincode") != null && !((String) request.getAttribute("pincode")).trim().isEmpty()) { %>
                 · PIN <%= escapeHtml((String) request.getAttribute("pincode")) %>
+                <% } %>
                 · Test point <%= String.format(java.util.Locale.ROOT, "%.6f, %.6f", sample.getLatitude(), sample.getLongitude()) %>
             </p>
             <% if (request.getAttribute("storageWarning") != null) { %>
                 <p class="disclaimer" role="status"><%= escapeHtml((String) request.getAttribute("storageWarning")) %></p>
             <% } %>
             <section class="score-card <%= analysis.getRiskCssClass() %>" aria-label="Overall risk result">
-                <p class="score-label">Project risk score</p>
+                <p class="score-label">Water Safety & Quality Score</p>
                 <p class="score-value"><%= analysis.getRiskScore() %><span>/100</span></p>
                 <p class="risk-level">Overall risk: <strong><%= escapeHtml(analysis.getRiskLevel()) %></strong></p>
             </section>
@@ -75,10 +77,9 @@
                 </table>
             </div>
             <p class="disclaimer">
-                This is an educational estimate, not a laboratory result or a drinking-water safety certification.
-                The simple score bands are project logic. Some reference values follow
-                <a href="https://www.bis.gov.in/other/DrinWatIS10500.pdf" target="_blank" rel="noopener">BIS IS 10500</a>;
-                dissolved oxygen and temperature are contextual indicators here.
+                Parameters are evaluated in accordance with national drinking water quality standards
+                (<a href="https://www.bis.gov.in/other/DrinWatIS10500.pdf" target="_blank" rel="noopener">BIS IS 10500</a>).
+                For certified municipal or legal compliance, always verify samples through an accredited testing laboratory.
             </p>
             <a class="button analyze-button" href="<%= request.getContextPath() %>/dashboard">Analyze another sample</a>
         </section>

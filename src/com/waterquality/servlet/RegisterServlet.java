@@ -18,9 +18,17 @@ import com.waterquality.service.UserService;
 public class RegisterServlet extends HttpServlet {
 
     @Override
+    protected void doGet(HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
+        response.sendRedirect(request.getContextPath() + "/register.html");
+    }
+
+    @Override
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
+
 
         request.setCharacterEncoding("UTF-8");
 
